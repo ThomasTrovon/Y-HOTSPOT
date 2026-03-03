@@ -1,0 +1,10 @@
+HotspotApp/bin
+HotspotApp/obj
+Publish
+
+
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini

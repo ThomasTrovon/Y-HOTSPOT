@@ -1,0 +1,87 @@
+<Window
+  x:Class="HotspotApp.Views.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:HotspotApp.Views"
+  xmlns:models="using:HotspotApp.Models"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  Title=""
+>
+  <Grid x:Name="RootGrid">
+    <NavigationView
+      x:Name="NavView"
+      SelectionChanged="NavView_SelectionChanged"
+      Loaded="NavView_Loaded"
+      MenuItemsSource="{x:Bind NavigationItems}"
+      PaneDisplayMode="LeftCompact"
+      IsBackButtonVisible="Collapsed"
+      IsPaneToggleButtonVisible="False"
+      IsSettingsVisible="False"
+    >
+      <NavigationView.Resources>
+        <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
+      </NavigationView.Resources>
+      <NavigationView.PaneFooter>
+        <StackPanel>
+          <NavigationViewItem
+            x:Uid="MainWindow_About"
+            Tapped="AboutItem_Tapped"
+            SelectsOnInvoked="False"
+          >
+            <NavigationViewItem.Icon>
+              <FontIcon
+                Glyph="&#xEA1F;"
+                FontSize="16"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+              />
+            </NavigationViewItem.Icon>
+          </NavigationViewItem>
+          <NavigationViewItem
+            x:Uid="MainWindow_HideToTray"
+            Tapped="HideToTrayItem_Tapped"
+            SelectsOnInvoked="False"
+            Margin="0,0,0,-4"
+          >
+            <NavigationViewItem.Icon>
+              <FontIcon
+                Glyph="&#xEF2D;"
+                FontSize="16"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+              />
+            </NavigationViewItem.Icon>
+          </NavigationViewItem>
+        </StackPanel>
+      </NavigationView.PaneFooter>
+      <NavigationView.MenuItemTemplate>
+        <DataTemplate x:DataType="models:NavigationItem">
+          <NavigationViewItem Content="{x:Bind Label}">
+            <NavigationViewItem.Icon>
+              <FontIcon
+                Glyph="{x:Bind IconGlyph}"
+                FontSize="16"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+              />
+            </NavigationViewItem.Icon>
+          </NavigationViewItem>
+        </DataTemplate>
+      </NavigationView.MenuItemTemplate>
+
+      <Frame x:Name="ContentFrame">
+        <Frame.ContentTransitions>
+          <TransitionCollection>
+            <NavigationThemeTransition>
+              <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                <EntranceNavigationTransitionInfo />
+              </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+          </TransitionCollection>
+        </Frame.ContentTransitions>
+      </Frame>
+    </NavigationView>
+  </Grid>
+</Window>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Navigation -->
+  <data name="Text_NavStatusLabel" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Text_NavDiagnosticsLabel" xml:space="preserve">
+    <value>Diagnostics</value>
+  </data>
+  <data name="Text_NavSettingsLabel" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Text_NavTroubleshootingLabel" xml:space="preserve">
+    <value>Troubleshooting</value>
+  </data>
+
+  <!-- Status Page -->
+  <data name="StatusPage_Header.Title" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="StatusPage_HotspotLabel.Text" xml:space="preserve">
+    <value>Hotspot</value>
+  </data>
+  <data name="StatusPage_ServiceLabel.Text" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="StatusPage_ClientsLabel.Text" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="StatusPage_ConnectionLabel.Text" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="StatusPage_ConnectionNoInternetFormat" xml:space="preserve">
+    <value>{0} (No Internet)</value>
+  </data>
+  <data name="StatusPage_DeviceNameHeader.Text" xml:space="preserve">
+    <value>Device Name</value>
+  </data>
+  <data name="StatusPage_IpAddressHeader.Text" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
+  <data name="StatusPage_MacAddressHeader.Text" xml:space="preserve">
+    <value>MAC Address</value>
+  </data>
+
+  <!-- Diagnostics Page -->
+  <data name="DiagnosticsPage_Header.Title" xml:space="preserve">
+    <value>Diagnostics</value>
+  </data>
+  <data name="DiagnosticsPage_ServiceHealthLabel.Text" xml:space="preserve">
+    <value>Service Health</value>
+  </data>
+  <data name="DiagnosticsPage_LastUpdatedLabel.Text" xml:space="preserve">
+    <value>Last Updated</value>
+  </data>
+  <data name="DiagnosticsPage_StatusSnapshotLabel.Text" xml:space="preserve">
+    <value>Status Snapshot</value>
+  </data>
+  <data name="DiagnosticsPage_RecentErrorsTimeHeader.Text" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="DiagnosticsPage_RecentErrorsMessageHeader.Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Text_DiagnosticsNotAvailable" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="Text_DiagnosticsSnapshotFormat" xml:space="preserve">
+    <value>Hotspot: {0} | Service: {1} | Clients: {2}</value>
+  </data>
+  <data name="Text_DiagnosticsStatusFetchFailedFormat" xml:space="preserve">
+    <value>Failed to fetch status: {0}</value>
+  </data>
+  <data name="Text_DiagnosticsStatusRefreshExceptionFormat" xml:space="preserve">
+    <value>Error refreshing status: {0}</value>
+  </data>
+
+  <!-- Settings Page -->
+  <data name="SettingsPage_Header.Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsPage_SsidHeader.Header" xml:space="preserve">
+    <value>Network Name (SSID)</value>
+  </data>
+  <data name="SettingsPage_SsidHeader.PlaceholderText" xml:space="preserve">
+    <value>Enter network name</value>
+  </data>
+  <data name="SettingsPage_CopySsid.Content" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="SettingsPage_SecurityHeader.Header" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="SettingsPage_PasswordHeader.Text" xml:space="preserve">
+    <value>Password (8+ characters)</value>
+  </data>
+  <data name="SettingsPage_PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>Enter password</value>
+  </data>
+  <data name="SettingsPage_PasswordGenerate.Content" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="SettingsPage_CopyPassword.Content" xml:space="preserve">
+    <value>Copy Password</value>
+  </data>
+  <data name="SettingsPage_BandHeader.Header" xml:space="preserve">
+    <value>Band</value>
+  </data>
+  <data name="SettingsPage_LockBand.Content" xml:space="preserve">
+    <value>Lock Hotspot Band</value>
+  </data>
+  <data name="SettingsPage_LockBandDescription.Text" xml:space="preserve">
+    <value>Prevents other wireless adapters from using the selected band while the service is active.</value>
+  </data>
+  <data name="SettingsPage_DeviceLimitHeader.Header" xml:space="preserve">
+    <value>Device Limit</value>
+  </data>
+  <data name="SettingsPage_EnableService.Content" xml:space="preserve">
+    <value>Enable Service</value>
+  </data>
+  <data name="SettingsPage_EnableServiceDescription.Text" xml:space="preserve">
+    <value>Automatically starts the hotspot service on sign-in.</value>
+  </data>
+  <data name="SettingsPage_DisableAutoConfig.Content" xml:space="preserve">
+    <value>Disable Auto-Config</value>
+  </data>
+  <data name="SettingsPage_DisableAutoConfigDescription.Text" xml:space="preserve">
+    <value>Prevents wireless adapters from auto-configuring. This disconnects existing networks and blocks new ones while the hotspot is active. Recommended to reduce interference during demanding tasks.</value>
+  </data>
+  <data name="SettingsPage_DisconnectModeDescription.Text" xml:space="preserve">
+    <value>Disconnects wireless networks to reduce interference, especially those on the same band. Highly recommended for speed and stability.</value>
+  </data>
+  <data name="SettingsPage_ForceLanFallback.Content" xml:space="preserve">
+    <value>Force LAN Fallback</value>
+  </data>
+  <data name="SettingsPage_ForceLanFallbackDescription.Text" xml:space="preserve">
+    <value>Forces the use of the Wintun adapter as the upstream connection. The hotspot will not have internet access but ensures maximum stability.</value>
+  </data>
+  <data name="SettingsPage_LogDetailHeader.Header" xml:space="preserve">
+    <value>Log Detail</value>
+  </data>
+  <data name="SettingsPage_ShowQr.Content" xml:space="preserve">
+    <value>Show QR Code</value>
+  </data>
+  <data name="SettingsPage_ResetApp.Content" xml:space="preserve">
+    <value>Reset App</value>
+  </data>
+  <data name="SettingsPage_ViewLogs.Content" xml:space="preserve">
+    <value>View Logs</value>
+  </data>
+  <data name="SettingsPage_Save.Content" xml:space="preserve">
+    <value>Save &amp; Apply</value>
+  </data>
+  <data name="Text_SettingsSaveFailed" xml:space="preserve">
+    <value>Failed to save settings.</value>
+  </data>
+  <data name="Text_SsidLabel" xml:space="preserve">
+    <value>SSID</value>
+  </data>
+  <data name="Text_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+
+  <!-- Troubleshooting Page -->
+  <data name="TroubleshootingPage_Header.Title" xml:space="preserve">
+    <value>Troubleshooting</value>
+  </data>
+  <data name="Text_TroubleshootingFixButton" xml:space="preserve">
+    <value>Fix</value>
+  </data>
+  <data name="Text_TroubleshootingRestoreBackupTitle" xml:space="preserve">
+    <value>System Settings Modified</value>
+  </data>
+  <data name="Text_TroubleshootingRestoreBackupDescription" xml:space="preserve">
+    <value>Restores the last saved backup to revert system values modified by optimizations.</value>
+  </data>
+  <data name="Text_TroubleshootingEnableAutoConfigTitle" xml:space="preserve">
+    <value>Wi-Fi Scanning Disabled</value>
+  </data>
+  <data name="Text_TroubleshootingEnableAutoConfigDescription" xml:space="preserve">
+    <value>Re-enables the WLAN AutoConfig service to restore Wi-Fi scanning and connectivity.</value>
+  </data>
+  <data name="Text_TroubleshootingResetRegistryTitle" xml:space="preserve">
+    <value>Registry Settings Modified</value>
+  </data>
+  <data name="Text_TroubleshootingResetRegistryDescription" xml:space="preserve">
+    <value>Resets Internet Connection Sharing (ICS) registry settings to Windows defaults.</value>
+  </data>
+  <data name="Text_TroubleshootingResetAdapterPowerTitle" xml:space="preserve">
+    <value>Adapter Disconnecting</value>
+  </data>
+  <data name="Text_TroubleshootingResetAdapterPowerDescription" xml:space="preserve">
+    <value>Disables power-saving features that may cause the Wi-Fi adapter to turn off unexpectedly.</value>
+  </data>
+  <data name="Text_TroubleshootingResetTcpTitle" xml:space="preserve">
+    <value>Slow or Unstable Network</value>
+  </data>
+  <data name="Text_TroubleshootingResetTcpDescription" xml:space="preserve">
+    <value>Resets TCP/IP stack parameters to default values to resolve performance issues.</value>
+  </data>
+  <data name="Text_TroubleshootingRemoveServiceTitle" xml:space="preserve">
+    <value>Service Unresponsive</value>
+  </data>
+  <data name="Text_TroubleshootingRemoveServiceDescription" xml:space="preserve">
+    <value>Forcefully removes the background service and reverts system changes.</value>
+  </data>
+  <data name="Text_TroubleshootingRemoveAdapterTitle" xml:space="preserve">
+    <value>Virtual Adapter Stuck</value>
+  </data>
+  <data name="Text_TroubleshootingRemoveAdapterDescription" xml:space="preserve">
+    <value>Removes the Wintun virtual adapter if left behind by a crash.</value>
+  </data>
+  <data name="Text_TroubleshootingRemoveAutostartTitle" xml:space="preserve">
+    <value>Disable Autostart</value>
+  </data>
+  <data name="Text_TroubleshootingRemoveAutostartDescription" xml:space="preserve">
+    <value>Removes the app from the startup list.</value>
+  </data>
+
+  <!-- Dialogs -->
+  <data name="Text_ErrorDialogTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Text_ErrorDialogCloseButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Text_FatalErrorTitle" xml:space="preserve">
+    <value>Fatal Error</value>
+  </data>
+  <data name="Text_AppStartFailedMessage" xml:space="preserve">
+    <value>{0} failed to start.\n\n{1}</value>
+  </data>
+  <data name="Text_ResetDialogTitle" xml:space="preserve">
+    <value>Reset App</value>
+  </data>
+  <data name="Text_ResetDialogContent" xml:space="preserve">
+    <value>This will stop the service, delete all settings, and close the app. Continue?</value>
+  </data>
+  <data name="Text_ResetDialogPrimaryButtonText" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Text_ResetDialogCancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Text_ResetFailedFormat" xml:space="preserve">
+    <value>Reset failed: {0}</value>
+  </data>
+  <data name="Text_ExitDialogTitle" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Text_ExitDialogContent" xml:space="preserve">
+    <value>The hotspot service is still running. How would you like to exit?</value>
+  </data>
+  <data name="Text_ExitDialogExitButtonText" xml:space="preserve">
+    <value>Keep Running &amp; Exit</value>
+  </data>
+  <data name="Text_ExitDialogExitDisableButtonText" xml:space="preserve">
+    <value>Stop Service &amp; Exit</value>
+  </data>
+  <data name="Text_ExitDialogCancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Text_QrDialogCloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Text_QrDialogCopyImageButton" xml:space="preserve">
+    <value>Copy Image</value>
+  </data>
+  <data name="Text_QrDialogCopiedButton" xml:space="preserve">
+    <value>Copied</value>
+  </data>
+
+  <!-- Service & Status Messages -->
+  <data name="Text_StatusUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Text_StatusCheckingService" xml:space="preserve">
+    <value>Checking service...</value>
+  </data>
+  <data name="Text_StatusActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Text_StatusStopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="Text_StatusUnavailable" xml:space="preserve">
+    <value>Unavailable (No Response)</value>
+  </data>
+  <data name="Text_ServiceStatusNotInstalled" xml:space="preserve">
+    <value>Not Installed</value>
+  </data>
+  <data name="Text_ServiceStatusRunning" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="Text_ServiceStatusStopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="Text_ServiceHealthHealthy" xml:space="preserve">
+    <value>Healthy</value>
+  </data>
+  <data name="Text_ServiceHealthLastErrorFormat" xml:space="preserve">
+    <value>Last error: {0}</value>
+  </data>
+  <data name="Text_ClientCountFormat" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="Text_ServiceErrorFormat" xml:space="preserve">
+    <value>Service error: {0}</value>
+  </data>
+  <data name="Text_ServiceNoResponseMessage" xml:space="preserve">
+    <value>No response from service</value>
+  </data>
+  <data name="Text_ServiceInvalidResponseMessage" xml:space="preserve">
+    <value>Invalid response from service</value>
+  </data>
+  <data name="Text_ServiceInvalidPayloadMessage" xml:space="preserve">
+    <value>Invalid payload</value>
+  </data>
+  <data name="Text_ServiceErrorMessage" xml:space="preserve">
+    <value>Service encountered an error</value>
+  </data>
+  <data name="Text_IpcInvalidConfigPayload" xml:space="preserve">
+    <value>Invalid configuration payload</value>
+  </data>
+  <data name="Text_IpcUnknownCommand" xml:space="preserve">
+    <value>Unknown command</value>
+  </data>
+  <data name="Text_ExecutableNotFoundMessage" xml:space="preserve">
+    <value>Application executable not found.</value>
+  </data>
+  <data name="Text_PassphraseInvalidError" xml:space="preserve">
+    <value>Password must be at least 8 characters.</value>
+  </data>
+  <data name="Text_MaxClientCountInvalidError" xml:space="preserve">
+    <value>Device limit must be between 1 and 32.</value>
+  </data>
+
+  <!-- Tray Icon -->
+  <data name="MainWindow_HideToTray.Content" xml:space="preserve">
+    <value>Minimize to Tray</value>
+  </data>
+  <data name="Text_TrayOpenText" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Text_TrayViewLogsText" xml:space="preserve">
+    <value>View Logs</value>
+  </data>
+  <data name="Text_TrayShowQrText" xml:space="preserve">
+    <value>Show QR Code</value>
+  </data>
+  <data name="Text_TrayRestartHotspotText" xml:space="preserve">
+    <value>Restart Hotspot</value>
+  </data>
+  <data name="Text_TrayEnableServiceText" xml:space="preserve">
+    <value>Start Service</value>
+  </data>
+  <data name="Text_TrayDisableServiceText" xml:space="preserve">
+    <value>Stop Service</value>
+  </data>
+  <data name="Text_TrayExitText" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Text_TrayTooltipFormat" xml:space="preserve">
+    <value>{0}&#xA;Status: {1}</value>
+  </data>
+
+  <!-- Enumerations & Options -->
+  <data name="Text_BandAuto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Text_Band24" xml:space="preserve">
+    <value>2.4 GHz (Long Range)</value>
+  </data>
+  <data name="Text_Band5" xml:space="preserve">
+    <value>5 GHz (High Speed)</value>
+  </data>
+  <data name="Text_SecurityWpa2" xml:space="preserve">
+    <value>WPA2 (Best Compatibility)</value>
+  </data>
+  <data name="Text_SecurityWpa3" xml:space="preserve">
+    <value>WPA3 (Enhanced Security)</value>
+  </data>
+  <data name="Text_AuthWpa2Personal" xml:space="preserve">
+    <value>WPA2-Personal</value>
+  </data>
+  <data name="Text_AuthWpa3Personal" xml:space="preserve">
+    <value>WPA3-Personal</value>
+  </data>
+  <data name="Text_DisconnectModeNone" xml:space="preserve">
+    <value>Do Not Disconnect</value>
+  </data>
+  <data name="Text_DisconnectModeSameBand" xml:space="preserve">
+    <value>Disconnect Same Band</value>
+  </data>
+  <data name="Text_DisconnectModeAll" xml:space="preserve">
+    <value>Disconnect All</value>
+  </data>
+  <data name="Text_LogDetailNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Text_LogDetailImportant" xml:space="preserve">
+    <value>Important</value>
+  </data>
+  <data name="Text_LogDetailAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+
+  <!-- About -->
+  <data name="MainWindow_About.Content" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Text_AboutVersionFormat" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+  <data name="Text_AboutAuthorFormat" xml:space="preserve">
+    <value>Author: {0}</value>
+  </data>
+  <data name="Text_AboutGithubButton" xml:space="preserve">
+    <value>GitHub</value>
+  </data>
+  <data name="Text_AboutReleasesButton" xml:space="preserve">
+    <value>Releases</value>
+  </data>
+
+  <!-- Config Load Error -->
+  <data name="Text_ConfigLoadErrorTitle" xml:space="preserve">
+    <value>Config Load Error</value>
+  </data>
+  <data name="Text_ConfigLoadErrorMessage" xml:space="preserve">
+    <value>The configuration file failed to load. This might be because it was created by a different version of the app. You can continue to reset all settings to defaults, or switch back to the previous version to restore your configuration.</value>
+  </data>
+  <data name="Text_ConfigLoadErrorExitButton" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Text_ConfigLoadErrorContinueButton" xml:space="preserve">
+    <value>Reset &amp; Continue</value>
+  </data>
+</root>
