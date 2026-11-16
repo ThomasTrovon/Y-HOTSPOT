@@ -1,4 +1,4 @@
-# Y-HOTSPOT 2.0.0 — release notes (prepared, not published)
+# Y-HOTSPOT 2.0.0 — release notes
 
 This fork adds English/Portuguese localization, a redesigned settings window, clearer adapter identification, native window controls, taskbar/tray behavior, and a single Start/Stop action. Save and apply now persists the fields and restarts the active session with visible feedback.
 
@@ -10,7 +10,7 @@ The kernel driver is not bundled. Keep all license notices and install it from t
 
 Original application: Yokaiste. Fork development: Thomas Vanini — https://linktr.ee/ThomasVanini.
 
-# Y-HOTSPOT 2.0.0 — notas da versão (preparada, não publicada)
+# Y-HOTSPOT 2.0.0 — notas da versão
 
 O fork adiciona inglês/português, configurações reorganizadas, identificação dos adaptadores, controles de janela, barra de tarefas/bandeja e ação única de iniciar/parar. Salvar e aplicar grava os campos e reinicia a sessão ativa com confirmação visível.
 
