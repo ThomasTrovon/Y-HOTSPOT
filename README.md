@@ -1,10 +1,26 @@
 <a id="english"></a>
 
-# Y-HOTSPOT 2.0
+<div align="center">
 
-**Native Windows hotspot management with supervised sessions, channel controls, and optional DNS/DHCP repair.**
+## English
 
-[Português (Brasil)](#portugues-brasil) · [Releases](https://github.com/ThomasTrovon/Y-HOTSPOT/releases) · [Issues](https://github.com/ThomasTrovon/Y-HOTSPOT/issues)
+# Y-HOTSPOT for Windows
+
+Share your Ethernet connection over Wi-Fi and manage your hotspot from the Windows desktop or system tray.
+
+![Windows 11](https://img.shields.io/badge/Windows-11-0078D4)
+![Platform x64](https://img.shields.io/badge/platform-x64-475569)
+![Latest release](https://img.shields.io/github/v/release/ThomasTrovon/Y-HOTSPOT?label=release)
+![License Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-475569)
+
+[![Download for Windows](https://img.shields.io/badge/Download-Windows%20x64-2ea44f?style=for-the-badge&logo=github)](https://github.com/ThomasTrovon/Y-HOTSPOT/releases/latest)
+
+[Português (Brasil)](#portugues-brasil) · [Installation](#requirements-and-installation) · [Channel compatibility](#channel-compatibility) · [Report an issue](https://github.com/ThomasTrovon/Y-HOTSPOT/issues)
+
+</div>
+
+## Overview
+
 
 Thomas Vanini's fork of [Yokaiste/Y-HOTSPOT](https://github.com/Yokaiste/Y-HOTSPOT), built with C#, WinUI 3, and Windows Mobile Hotspot. Share an internet connection through a compatible Wi-Fi adapter and manage it from the desktop or system tray.
 
@@ -18,7 +34,7 @@ Thomas Vanini's fork of [Yokaiste/Y-HOTSPOT](https://github.com/Yokaiste/Y-HOTSP
 - Band-specific manual channel attempts with a compatibility warning, with actual Windows channel readback.
 - **Save and apply** saves and restarts the active hotspot with edited fields. It is hidden while stopped.
 - Optional built-in DNS with automatic/manual upstream IPv4 servers and missing-DNS repair in eligible DHCP replies.
-- Independent supervisor for cleanup after UI failure; logs and recovery journals beside the executable.
+- A supervisor cleans up after app failure and restores interrupted sessions on the next start.
 
 ## Requirements and installation
 
@@ -39,7 +55,7 @@ Extract the Windows x64 package from this fork's Releases page into a writable f
 
 ## Channel compatibility
 
-Automatic is the default. Manual attempts are allowed without a hardware-ID, version or driver-hash lock. The warning appears only when the selected adapter is not identified as an Intel AX200; AX200 selections proceed directly. It is **not a generic Windows or Intel channel API**. Reference tested package: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
+Automatic is the default. Manual attempts are allowed without a hardware-ID, version or driver-hash lock. The app asks for confirmation when you select an unvalidated channel or another adapter. Reference tested package: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
 
 | Band | Channel choices |
 | --- | --- |
@@ -76,7 +92,7 @@ Use Windows, .NET 10 SDK, and compatible Windows SDK/build tooling. From PowerSh
 .\build.ps1
 ```
 
-Output: `dist/releases/Y-HOTSPOT-2.0.1-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
+Output: `dist/releases/Y-HOTSPOT-2.0.2-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
 
 Non-network checks:
 
@@ -114,11 +130,27 @@ This independently maintained fork does not imply endorsement by the original au
 
 <a id="portugues-brasil"></a>
 
-# Y-HOTSPOT 2.0
+<div align="center">
 
-**Gerenciador nativo de hotspot para Windows com sessões supervisionadas, controle de canal e correção opcional de DNS/DHCP.**
+## Português (Brasil)
 
-[English](#english) · [Versões](https://github.com/ThomasTrovon/Y-HOTSPOT/releases) · [Relatar problema](https://github.com/ThomasTrovon/Y-HOTSPOT/issues)
+# Y-HOTSPOT para Windows
+
+Compartilhe a internet por cabo via Wi-Fi e gerencie o hotspot pela janela ou pela bandeja do Windows.
+
+![Windows 11](https://img.shields.io/badge/Windows-11-0078D4)
+![Plataforma x64](https://img.shields.io/badge/plataforma-x64-475569)
+![Versão mais recente](https://img.shields.io/github/v/release/ThomasTrovon/Y-HOTSPOT?label=vers%C3%A3o)
+![Licença Apache 2.0](https://img.shields.io/badge/licen%C3%A7a-Apache%202.0-475569)
+
+[![Baixar para Windows](https://img.shields.io/badge/Baixar-Windows%20x64-2ea44f?style=for-the-badge&logo=github)](https://github.com/ThomasTrovon/Y-HOTSPOT/releases/latest)
+
+[English](#english) · [Instalação](#requisitos-e-instalação) · [Compatibilidade dos canais](#compatibilidade-dos-canais) · [Relatar problema](https://github.com/ThomasTrovon/Y-HOTSPOT/issues)
+
+</div>
+
+## Visão geral
+
 
 Fork de Thomas Vanini baseado no [Y-HOTSPOT de Yokaiste](https://github.com/Yokaiste/Y-HOTSPOT), desenvolvido em C#, WinUI 3 e Hotspot Móvel do Windows. Compartilhe uma conexão de internet por um adaptador Wi-Fi compatível e gerencie a rede pela janela ou pela bandeja do sistema.
 
@@ -132,7 +164,7 @@ Fork de Thomas Vanini baseado no [Y-HOTSPOT de Yokaiste](https://github.com/Yoka
 - Tentativas de canal manual por faixa com aviso de compatibilidade, com leitura real do canal informado pelo Windows.
 - **Salvar e aplicar** salva os campos e reinicia o hotspot ativo com as alterações. Fica oculto quando parado.
 - DNS próprio opcional, com servidores IPv4 automáticos/manuais e correção de DNS ausente em respostas DHCP elegíveis.
-- Supervisor independente para recuperação após falha da interface; logs e registros de recuperação junto do executável.
+- Um supervisor encerra sessões após falhas da interface e restaura sessões interrompidas na próxima partida.
 
 ## Requisitos e instalação
 
@@ -153,7 +185,7 @@ Baixe a versão Windows x64 na página de versões deste fork. Extraia em uma pa
 
 ## Compatibilidade dos canais
 
-Automático é o padrão. Tentativas manuais são permitidas sem bloqueio por identificador de hardware, versão ou hash do driver. O aviso aparece apenas quando o adaptador selecionado não é identificado como Intel AX200; na AX200, a seleção segue diretamente. **Não é uma API genérica do Windows ou da Intel.** Pacote de referência testado: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
+Automático é o padrão. Tentativas manuais são permitidas sem bloqueio por identificador de hardware, versão ou hash do driver. O aplicativo pede confirmação ao selecionar um canal ainda sem validação ou outro adaptador. Pacote de referência testado: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
 
 | Faixa | Opções de canal |
 | --- | --- |
@@ -190,7 +222,7 @@ Use Windows, SDK .NET 10 e ferramentas compatíveis do Windows SDK. No PowerShel
 .\build.ps1
 ```
 
-Saída: `dist/releases/Y-HOTSPOT-2.0.1-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
+Saída: `dist/releases/Y-HOTSPOT-2.0.2-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
 
 Verificações que não alteram a rede:
 
