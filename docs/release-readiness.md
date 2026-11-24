@@ -97,3 +97,19 @@ The settings window, not a headless command, selected 5 GHz and channel 153, acc
 ## Confirmação no Android — 16/11/2026
 
 A janela de configurações selecionou 5 GHz e o canal 153, aceitou o aviso de canal manual e iniciou com o DNS próprio já marcado. O Windows informou o canal 153 às 12:58. O usuário confirmou em seguida que a navegação no Android funcionou. Isso confirma conexão e resolução de nomes nessa sessão. Não confirma o número do canal lido no celular e não estende o resultado a 149, 157, 161 ou 165.
+
+## Independent 5 GHz validation — 2026-11-24
+
+The installed Y-HOTSPOT build started with built-in DNS active. Windows reported channel 153, and Lord Thomas independently confirmed channel 153 on the Android Wi-Fi analyzer and successful internet browsing. This completes the client validation for manual 5 GHz channel 153 on the Intel AX200 with driver 24.0.2.1.
+
+## Validação independente em 5 GHz — 24/11/2026
+
+O executável instalado do Y-HOTSPOT iniciou com DNS próprio ativo. O Windows leu o canal 153, e Lord Thomas confirmou o canal 153 no analisador Wi-Fi do Android e a navegação com sucesso. Isso conclui a validação em um cliente para o canal manual 153 em 5 GHz na Intel AX200 com driver 24.0.2.1.
+
+Lord Thomas also confirmed channel 165 on the Wi-Fi analyzer after selecting it in the app. This verifies the operating channel. Internet browsing was confirmed separately on channel 153.
+
+Lord Thomas também confirmou o canal 165 no analisador Wi-Fi depois de selecioná-lo no aplicativo. Isso comprova o canal em uso. A navegação foi confirmada separadamente no canal 153.
+
+The Android analyzer also independently confirmed channel 161. Manual 5 GHz validation is complete on the reference AX200: Android verified 153, 161 and 165, and internet browsing was verified on 153. Channels 149 and 157 have Windows readback only.
+
+O analisador no Android também confirmou o canal 161. A validação manual de 5 GHz está concluída na AX200 de referência: o Android confirmou 153, 161 e 165, e a navegação foi validada no 153. Os canais 149 e 157 têm apenas a leitura do Windows.

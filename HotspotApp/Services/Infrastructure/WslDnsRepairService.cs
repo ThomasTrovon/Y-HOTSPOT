@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using HotspotApp.Localization;
 
@@ -24,28 +22,14 @@ public sealed class WslDnsRepairService(ManualHotspotSession session)
                 throw new InvalidOperationException(AppStrings.Get("Text_WslDnsBusy"));
             maintenance = await session.EnterMaintenanceAsync();
             Directory.CreateDirectory(DirectoryPath);
-            var scriptPath = Path.Combine(DirectoryPath, "RepairWslHotspotDns.ps1");
-            using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("HotspotApp.RepairWslHotspotDns.ps1")
-                ?? throw new IOException("Recovery script resource missing");
-            using (var reader = new StreamReader(resource, Encoding.UTF8))
-                await File.WriteAllTextAsync(scriptPath, await reader.ReadToEndAsync(), new UTF8Encoding(true));
             // Qualify the environment without interrupting a working session first.
             foreach (var inspectOnly in new[] { true, false })
             {
                 if (!inspectOnly && session.OwnsSession) await session.StopAsync();
                 var resultPath = Path.Combine(DirectoryPath, "dns-recovery-result.json");
                 if (File.Exists(resultPath)) File.Delete(resultPath);
-                var start = new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),
-                    "WindowsPowerShell", "v1.0", "powershell.exe"))
-                {
-                    UseShellExecute = false, CreateNoWindow = true,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                };
-                foreach (var argument in new[] { "-NoProfile", "-NonInteractive", "-File", scriptPath, "-WorkDirectory", DirectoryPath })
-                    start.ArgumentList.Add(argument);
-                if (inspectOnly) start.ArgumentList.Add("-InspectOnly");
                 worker?.Dispose();
-                worker = Process.Start(start) ?? throw new IOException("Recovery worker could not start");
+                worker = await ElevatedMaintenance.StartAsync(inspectOnly ? "wsl-inspect" : "wsl-repair");
                 try { await worker.WaitForExitAsync().WaitAsync(TimeSpan.FromMinutes(4)); }
                 catch (TimeoutException)
                 {

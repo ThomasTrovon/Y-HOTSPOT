@@ -601,4 +601,7 @@ Status: {1}</value>
   <data name="Text_ChannelWarningTitle" xml:space="preserve"><value>Manual channel selection</value></data>
   <data name="Text_ChannelWarningContent" xml:space="preserve"><value>Automatic is recommended. This method uses private Intel driver settings and restarts the selected Wi-Fi adapter. Channel 6 was verified on Intel AX200 driver 24.0.2.1. Other adapters, drivers and channels are unverified: they may ignore the request or fail to start. You may try anyway. The app checks the reported channel and attempts to restore previous settings on failure. A matching readback does not prove the driver honored the request if Automatic would choose the same channel.</value></data>
   <data name="Text_ChannelWarningContinue" xml:space="preserve"><value>Try selected channel</value></data>
+  <data name="SettingsPage_ShowAllChannels.Header" xml:space="preserve"><value>Show all channels</value></data>
+  <data name="SettingsPage_ShowAllChannels.OffContent" xml:space="preserve"><value>Validated on AX200</value></data>
+  <data name="SettingsPage_ShowAllChannels.OnContent" xml:space="preserve"><value>All channels</value></data>
 </root>

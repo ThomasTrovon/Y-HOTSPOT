@@ -14,7 +14,7 @@ public static class UiLauncher
         App.StartInSettings = args.Contains("--settings");
         LanguagePreferences.Initialize();
 
-        LoggingBootstrapper.InitializeLogLevelAsync().GetAwaiter().GetResult();
+        LoggingBootstrapper.InitializeLogLevelAsync(forUser: true).GetAwaiter().GetResult();
         AppServices.Initialize();
         ManualTestDiagnostics.Write("Interface iniciada");
 

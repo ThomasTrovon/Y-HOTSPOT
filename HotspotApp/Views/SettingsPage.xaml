@@ -164,6 +164,8 @@
                 DropDownClosed="Channel_DropDownClosed"
                 HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.ChannelOptions, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedChannel, Mode=TwoWay}" DisplayMemberPath="Label" />
+            <ToggleSwitch x:Uid="SettingsPage_ShowAllChannels" AutomationProperties.AutomationId="ShowAllChannels"
+                IsOn="{x:Bind ViewModel.ShowAllChannels, Mode=TwoWay}" />
             <TextBlock x:Uid="SettingsPage_ChannelDescription" Style="{StaticResource SupportingText}" />
             <Border BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Padding="0,12,0,0">
               <StackPanel Spacing="6">

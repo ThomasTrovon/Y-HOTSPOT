@@ -601,4 +601,7 @@ Status: {1}</value>
   <data name="Text_ChannelWarningTitle" xml:space="preserve"><value>Seleção manual de canal</value></data>
   <data name="Text_ChannelWarningContent" xml:space="preserve"><value>Automático é recomendado. Este método usa parâmetros privados do driver Intel e reinicia o adaptador Wi-Fi selecionado. O canal 6 foi verificado na Intel AX200 com driver 24.0.2.1. Outras placas, drivers e canais não foram validados: podem ignorar o pedido ou falhar ao iniciar. Você pode tentar mesmo assim. O app confere o canal informado e tenta restaurar as configurações anteriores em caso de falha. Uma leitura coincidente não prova que o driver obedeceu ao pedido se o Automático escolheria o mesmo canal.</value></data>
   <data name="Text_ChannelWarningContinue" xml:space="preserve"><value>Tentar canal selecionado</value></data>
+  <data name="SettingsPage_ShowAllChannels.Header" xml:space="preserve"><value>Mostrar todos os canais</value></data>
+  <data name="SettingsPage_ShowAllChannels.OffContent" xml:space="preserve"><value>Validados na AX200</value></data>
+  <data name="SettingsPage_ShowAllChannels.OnContent" xml:space="preserve"><value>Todos os canais</value></data>
 </root>

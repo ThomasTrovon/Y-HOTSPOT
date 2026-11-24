@@ -7,6 +7,31 @@ namespace HotspotApp.Services.Infrastructure;
 
 public static class AdapterSelection
 {
+    public static bool IsIntelAx200(Guid adapter)
+    {
+        // Compare the selected device's PCI model, not its display name or driver
+        // version. This controls a notice only; it never grants hardware support.
+        try
+        {
+            using var root = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
+                @"SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}");
+            if (root == null) return false;
+            foreach (var name in root.GetSubKeyNames().Where(ChannelRecoveryPolicy.IsAdapterInstanceKey))
+            {
+                using var key = root.OpenSubKey(name);
+                if (!Guid.TryParse(key?.GetValue("NetCfgInstanceId") as string, out var id) || id != adapter) continue;
+                var component = key?.GetValue("ComponentId") as string;
+                return component != null && (component.Equals(@"PCI\VEN_8086&DEV_2723", StringComparison.OrdinalIgnoreCase)
+                    || component.StartsWith(@"PCI\VEN_8086&DEV_2723&", StringComparison.OrdinalIgnoreCase));
+            }
+        }
+        catch (UnauthorizedAccessException) { }
+        catch (System.Security.SecurityException) { }
+        catch (System.IO.IOException) { }
+        // Unknown identity keeps the notice available, without blocking the attempt.
+        return false;
+    }
+
     public static List<SelectionOption<Guid>> List(bool wireless)
     {
         var devices = RegisteredAdapters();

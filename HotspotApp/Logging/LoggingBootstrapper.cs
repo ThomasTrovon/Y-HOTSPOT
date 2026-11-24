@@ -13,11 +13,11 @@ public static class LoggingBootstrapper
         builder.SetMinimumLevel(LogLevel.Trace);
     }
 
-    public static async Task InitializeLogLevelAsync()
+    public static async Task InitializeLogLevelAsync(bool forUser = false)
     {
         try
         {
-            var config = await ConfigManager.LoadConfigAsync();
+            var config = await ConfigManager.LoadConfigAsync(forUser);
             AsyncFileLogger.CurrentLogLevel = config.LogLevel;
         }
         catch { }

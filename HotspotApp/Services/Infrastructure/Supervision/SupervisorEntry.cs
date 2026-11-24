@@ -31,14 +31,17 @@ public static class SupervisorEntry
         if (parent.StartTime.ToUniversalTime().Ticks != ticks || parent.HasExited)
             throw new InvalidOperationException("A interface de origem já encerrou.");
         var journal = Path.Combine(LogPaths.DirectoryPath, "supervisor-recovery.json");
-        if (File.Exists(journal)) throw new InvalidOperationException("Recuperação anterior pendente; não iniciar outra sessão.");
+        // The UI owns the same-user pipe ACL. The client-side CurrentUserOnly
+        // check also requires matching elevation, which is intentionally different.
         using var pipe = new NamedPipeClientStream(".", "Y-HOTSPOT-" + nonce.ToString("N"),
-            PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+            PipeDirection.InOut, PipeOptions.Asynchronous,
+            System.Security.Principal.TokenImpersonationLevel.Identification);
         await pipe.ConnectAsync(10000);
         if (!PipePeer.GetNamedPipeServerProcessId(pipe.SafePipeHandle, out var peer) || peer != parentId)
             throw new IOException("Processo de origem do pipe não corresponde à interface.");
         global::WinRT.ComWrappersSupport.InitializeComWrappers();
         LanguagePreferences.Initialize();
+        if (File.Exists(journal)) await RecoverInterruptedSessionAsync(journal);
         File.WriteAllText(journal, JsonSerializer.Serialize(new
         {
             SupervisorPid = Environment.ProcessId, ParentPid = parentId,
@@ -51,6 +54,34 @@ public static class SupervisorEntry
         if (cleaned) File.Delete(journal);
         // Retornar do Main encerra este processo, sem matar a interface ou serviços Windows.
         Environment.ExitCode = cleaned ? 0 : 2;
+    }
+
+    private static async Task RecoverInterruptedSessionAsync(string journal)
+    {
+        // Never change adapter settings while a hotspot is still running.
+        var profile = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile()
+            ?? throw new InvalidOperationException("Cannot verify hotspot state without an upstream profile.");
+        var manager = Windows.Networking.NetworkOperators.NetworkOperatorTetheringManager.CreateFromConnectionProfile(profile);
+        if (manager.TetheringOperationalState != Windows.Networking.NetworkOperators.TetheringOperationalState.Off)
+            throw new InvalidOperationException("Stop the hotspot before recovering the interrupted session.");
+
+        await IntelChannelSession.RecoverPendingAsync();
+        await DnsRecovery.RecoverPendingAsync();
+        var dnsJournal = Path.Combine(LogPaths.DirectoryPath, "dns-backend-recovery.json");
+        if (File.Exists(dnsJournal))
+        {
+            using var record = JsonDocument.Parse(await File.ReadAllTextAsync(dnsJournal));
+            var name = record.RootElement.GetProperty("rule").GetString();
+            const string prefix = "YHotspotDns-";
+            if (name is null || !name.StartsWith(prefix, StringComparison.Ordinal)
+                || !Guid.TryParseExact(name[prefix.Length..], "N", out _))
+                throw new InvalidDataException("Invalid DNS firewall recovery rule.");
+            dynamic policy = Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2", throwOnError: true)!)!;
+            foreach (var protocol in new[] { 6, 17 }) policy.Rules.Remove(name + "-" + protocol);
+            File.Delete(dnsJournal);
+        }
+        File.Delete(journal);
+        ManualTestDiagnostics.Write("Supervisor: sessão anterior restaurada antes da inicialização");
     }
 
     private sealed class Backend : ISupervisedHotspot

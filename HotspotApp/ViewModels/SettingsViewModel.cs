@@ -27,11 +27,29 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
     public IReadOnlyList<SelectionOption<int>> ChannelOptions => _channelOptions ??= (SelectedBand?.Value == TetheringWiFiBand.FiveGigahertz
         ? new[] { 0 }.Concat(ChannelRecoveryPolicy.FiveGhzChannels)
         : SelectedBand?.Value == TetheringWiFiBand.TwoPointFourGigahertz ? Enumerable.Range(0, 14) : new[] { 0 })
+        .Where(channel => ShowAllChannels || IsValidatedChannel(channel))
         .Select(channel => new SelectionOption<int>
         {
             Value = channel,
             Label = channel == 0 ? AppStrings.Get("Text_ChannelAuto") : channel.ToString(),
         }).ToArray();
+    private bool _showAllChannels;
+    public bool ShowAllChannels
+    {
+        get => _showAllChannels;
+        set
+        {
+            if (!SetProperty(ref _showAllChannels, value)) return;
+            var previous = SelectedChannel?.Value ?? 0;
+            _channelOptions = null;
+            OnPropertyChanged(nameof(ChannelOptions));
+            SelectedChannel = ChannelOptions.FirstOrDefault(option => option.Value == previous) ?? ChannelOptions[0];
+        }
+    }
+
+    // These channels started successfully on the reference Intel AX200.
+    private static bool IsValidatedChannel(int channel) => channel is 0 or 6 or 149 or 153 or 157 or 161 or 165;
+
     private SelectionOption<int>? _selectedChannel;
     private (int Channel, Guid? Adapter)? _acknowledgedChannel;
     private bool _channelWarningOpen;
@@ -49,6 +67,7 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
     {
         var choice = (Channel: SelectedChannel?.Value ?? 0, Adapter: SelectedTarget?.Value);
         if (choice.Channel == 0 || _acknowledgedChannel == choice) return true;
+        if (IsValidatedChannel(choice.Channel) && choice.Adapter is Guid adapter && AdapterSelection.IsIntelAx200(adapter)) return true;
         if (_channelWarningOpen) return false;
         _channelWarningOpen = true;
         try
@@ -286,7 +305,7 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
         HotspotConfig config;
         try
         {
-            config = await ConfigManager.LoadConfigAsync();
+            config = await ConfigManager.LoadConfigAsync(forUser: true);
         }
         catch
         {
@@ -306,9 +325,9 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
                 return;
             }
 
-            ConfigManager.DeleteConfigFolder();
+            ConfigManager.ResetUserConfig();
 
-            config = await ConfigManager.LoadConfigAsync();
+            config = await ConfigManager.LoadConfigAsync(forUser: true);
         }
 
         Ssid = config.Ssid;
@@ -317,6 +336,7 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
             option.Value == config.AuthenticationKind
         );
         SelectedBand = BandOptions.FirstOrDefault(option => option.Value == config.Band);
+        ShowAllChannels = !IsValidatedChannel(config.Channel);
         SelectedChannel = ChannelOptions.FirstOrDefault(option => option.Value == config.Channel) ?? ChannelOptions[0];
         SelectedLogLevel = LogLevelOptions.FirstOrDefault(option =>
             option.Value == config.LogLevel
@@ -400,7 +420,7 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
                 throw new InvalidOperationException(AppStrings.Get("Text_PassphraseInvalidError"));
             if (MaxClientCount < 1 || MaxClientCount > 32)
                 throw new InvalidOperationException(AppStrings.Get("Text_MaxClientCountInvalidError"));
-            var config = await ConfigManager.SaveConfigAsync(BuildConfig())
+            var config = await ConfigManager.SaveConfigAsync(BuildConfig(), forUser: true)
                 ?? throw new InvalidOperationException(AppStrings.Get("Text_SettingsSaveFailed"));
             AsyncFileLogger.CurrentLogLevel = config.LogLevel;
             TestStatus = AppStrings.Get("Text_ApplyingHotspotSettings");
@@ -439,7 +459,7 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
         if (IsBusy)
             return;
 
-        var config = await ConfigManager.LoadConfigAsync();
+        var config = await ConfigManager.LoadConfigAsync(forUser: true);
 
         await _dialogService.ShowHotspotQrAsync(config.Ssid, config.Passphrase);
     }
@@ -478,7 +498,7 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
                 await _serviceStateManager.ApplyAsync(false);
 
                 // 2. Delete Config
-                ConfigManager.DeleteConfigFolder();
+                ConfigManager.ResetUserConfig();
 
                 // 3. Close App
                 Application.Current.Exit();

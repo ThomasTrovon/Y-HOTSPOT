@@ -16,6 +16,11 @@ public static class AppLauncher
             Infrastructure.Supervision.SupervisorEntry.Run(args);
             return;
         }
+        if (args.Length == 2 && args[0] == "--maintenance")
+        {
+            Infrastructure.ElevatedMaintenance.Run(args[1]);
+            return;
+        }
         if (!LanguagePreferences.WaitForPreviousUi(args))
             return;
         var serviceMode = args.Contains("--service") || !Environment.UserInteractive;

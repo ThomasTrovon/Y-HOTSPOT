@@ -114,12 +114,19 @@ public sealed class ManualHotspotSession
         pipe = new NamedPipeServerStream("Y-HOTSPOT-" + nonce, PipeDirection.InOut, 1,
             PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
         var start = new ProcessStartInfo(ProcessExecutablePathProvider.GetExecutablePath())
-        { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden };
+        {
+            // Keep the UI at the caller's integrity level. The supervisor owns
+            // privileged startup, rollback and cleanup for the whole session.
+            UseShellExecute = true,
+            Verb = "runas",
+            WindowStyle = ProcessWindowStyle.Hidden
+        };
         start.ArgumentList.Add("--hotspot-supervisor"); start.ArgumentList.Add(nonce);
         start.ArgumentList.Add(Environment.ProcessId.ToString());
         using var parent = Process.GetCurrentProcess();
         start.ArgumentList.Add(parent.StartTime.ToUniversalTime().Ticks.ToString());
-        helper = Process.Start(start) ?? throw new IOException(AppStrings.Get("Text_RecoveryMessage02"));
+        helper = await Task.Run(() => Process.Start(start))
+            ?? throw new IOException(AppStrings.Get("Text_RecoveryMessage02"));
         owned = true; // Inclui inicialização e recuperação, impedindo reinício/idioma concorrente.
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(12));
         var connecting = pipe.WaitForConnectionAsync(timeout.Token);

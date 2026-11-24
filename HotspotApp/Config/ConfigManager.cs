@@ -17,19 +17,24 @@ public static class ConfigManager
         AppDataFolder,
         AppConstants.ConfigFileName
     );
+    private static readonly string UserConfigPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        AppConstants.AppName, AppConstants.ConfigFileName);
 
     public static string ConfigFilePath => ConfigPath;
     public static string ConfigFolderPath => AppDataFolder;
 
-    public static async Task<HotspotConfig> LoadConfigAsync()
+    public static async Task<HotspotConfig> LoadConfigAsync(bool forUser = false)
     {
         var config = CreateDefaultConfig();
 
-        if (File.Exists(ConfigPath))
+        // Import the old shared preferences on first use. The service keeps its own file.
+        var path = forUser && File.Exists(UserConfigPath) ? UserConfigPath : ConfigPath;
+        if (File.Exists(path))
         {
             try
             {
-                var encryptedBytes = await File.ReadAllBytesAsync(ConfigPath);
+                var encryptedBytes = await File.ReadAllBytesAsync(path);
                 var key = GetKey();
                 var json = Decrypt(encryptedBytes, key);
 
@@ -52,20 +57,20 @@ public static class ConfigManager
             }
         }
 
-        await SaveConfigAsync(config);
+        if (!forUser || !File.Exists(UserConfigPath))
+            await SaveConfigAsync(config, forUser);
         return config;
     }
 
-    public static async Task<HotspotConfig?> SaveConfigAsync(HotspotConfig config)
+    public static async Task<HotspotConfig?> SaveConfigAsync(HotspotConfig config, bool forUser = false)
     {
         try
         {
-            EnsureDirectory();
             var normalized = ValidateAndNormalize(config);
             var json = JsonSerializer.Serialize(normalized);
             var key = GetKey();
             var encryptedBytes = Encrypt(json, key);
-            await WriteAtomicAsync(encryptedBytes);
+            await WriteAtomicAsync(forUser ? UserConfigPath : ConfigPath, encryptedBytes);
             return normalized;
         }
         catch (Exception ex)
@@ -75,14 +80,13 @@ public static class ConfigManager
         }
     }
 
-    public static void DeleteConfigFolder()
+    public static void ResetUserConfig()
     {
         try
         {
-            if (Directory.Exists(AppDataFolder))
-            {
-                Directory.Delete(AppDataFolder, true);
-            }
+            // Write defaults so a reset does not reimport the old shared preferences.
+            var defaults = Encrypt(JsonSerializer.Serialize(CreateDefaultConfig()), GetKey());
+            WriteAtomicAsync(UserConfigPath, defaults).GetAwaiter().GetResult();
         }
         catch (Exception ex)
         {
@@ -147,22 +151,16 @@ public static class ConfigManager
         return normalized;
     }
 
-    private static async Task WriteAtomicAsync(byte[] data)
+    private static async Task WriteAtomicAsync(string path, byte[] data)
     {
-        var tempPath = Path.Combine(
-            AppDataFolder,
-            $"{AppConstants.ConfigFileName}.{Guid.NewGuid():N}.tmp"
-        );
-        await File.WriteAllBytesAsync(tempPath, data);
-        File.Move(tempPath, ConfigPath, true);
-    }
-
-    private static void EnsureDirectory()
-    {
-        if (!Directory.Exists(AppDataFolder))
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        var tempPath = $"{path}.{Guid.NewGuid():N}.tmp";
+        try
         {
-            Directory.CreateDirectory(AppDataFolder);
+            await File.WriteAllBytesAsync(tempPath, data).ConfigureAwait(false);
+            File.Move(tempPath, path, true);
         }
+        finally { File.Delete(tempPath); }
     }
 
     private static byte[] GetKey()

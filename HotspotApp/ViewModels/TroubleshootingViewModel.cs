@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace HotspotApp.ViewModels;
 
 public sealed partial class TroubleshootingViewModel(
-    HotspotOptimizer optimizer,
+    ManualHotspotSession session,
     ServiceStateManager serviceStateManager,
     WslDnsRepairService wslDnsRepair,
     DialogService dialogService,
@@ -51,35 +51,35 @@ public sealed partial class TroubleshootingViewModel(
             CreateItem(
                 "Text_TroubleshootingRestoreBackupTitle",
                 "Text_TroubleshootingRestoreBackupDescription",
-                optimizer.RestoreSystemSettingsAsync
+                () => RunMaintenanceAsync("restore")
             )
         );
         Items.Add(
             CreateItem(
                 "Text_TroubleshootingEnableAutoConfigTitle",
                 "Text_TroubleshootingEnableAutoConfigDescription",
-                optimizer.EnableWirelessAutoConfigAsync
+                () => RunMaintenanceAsync("enable-wlan")
             )
         );
         Items.Add(
             CreateItem(
                 "Text_TroubleshootingResetRegistryTitle",
                 "Text_TroubleshootingResetRegistryDescription",
-                optimizer.ResetHotspotRegistrySettingsAsync
+                () => RunMaintenanceAsync("reset-registry")
             )
         );
         Items.Add(
             CreateItem(
                 "Text_TroubleshootingResetAdapterPowerTitle",
                 "Text_TroubleshootingResetAdapterPowerDescription",
-                optimizer.ResetAdapterPowerSettingsAsync
+                () => RunMaintenanceAsync("reset-power")
             )
         );
         Items.Add(
             CreateItem(
                 "Text_TroubleshootingResetTcpTitle",
                 "Text_TroubleshootingResetTcpDescription",
-                optimizer.ResetTcpGlobalSettingsAsync
+                () => RunMaintenanceAsync("reset-tcp")
             )
         );
 
@@ -106,10 +106,14 @@ public sealed partial class TroubleshootingViewModel(
         return Task.CompletedTask;
     }
 
-    private Task RemoveAdapterAsync()
+    private Task RemoveAdapterAsync() => RunMaintenanceAsync("remove-adapter");
+
+    private async Task RunMaintenanceAsync(string action)
     {
-        serviceStateManager.RemoveAdapter();
-        return Task.CompletedTask;
+        using var lease = await session.EnterMaintenanceAsync();
+        if (session.OwnsSession)
+            throw new InvalidOperationException(AppStrings.Get("Text_TestAlreadyActive"));
+        await ElevatedMaintenance.ExecuteAsync(action);
     }
 
     private TroubleshootingItem CreateItem(

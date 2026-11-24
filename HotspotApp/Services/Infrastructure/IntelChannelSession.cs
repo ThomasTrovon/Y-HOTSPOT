@@ -95,6 +95,21 @@ public sealed class IntelChannelSession
         File.Delete(journal);
     }
 
+    internal static async Task RecoverPendingAsync()
+    {
+        var path = Path.Combine(LogPaths.DirectoryPath, "channel-recovery.json");
+        if (!File.Exists(path)) return;
+        var snapshot = JsonSerializer.Deserialize<Snapshot>(await File.ReadAllTextAsync(path));
+        var prefix = ClassPath + "\\";
+        if (snapshot is null || snapshot.Values?.Length != Names.Length
+            || snapshot.RequestedChannel == 0 || !ChannelRecoveryPolicy.IsSupportedChannel(snapshot.RequestedChannel)
+            || !snapshot.KeyPath.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+            || !ChannelRecoveryPolicy.IsAdapterInstanceKey(snapshot.KeyPath[prefix.Length..]))
+            throw Error("Text_ChannelConflict");
+
+        await new IntelChannelSession(snapshot, path, snapshot.RequestedChannel).RestoreAsync();
+    }
+
     private RegistryKey OpenOwnedKey()
     {
         var key = Registry.LocalMachine.OpenSubKey(before.KeyPath, writable: true) ?? throw Error("Text_ChannelUnsupported");

@@ -22,11 +22,11 @@ Thomas Vanini's fork of [Yokaiste/Y-HOTSPOT](https://github.com/Yokaiste/Y-HOTSP
 
 ## Requirements and installation
 
-Windows 11 x64, administrator privileges, a Windows Mobile Hotspot-compatible adapter, and an available internet source. Windows build 26100+ and Ethernet upstream are the documented test baseline. The executable is self-contained; no separate .NET runtime or WSL installation is required. Wired hotspot output is not implemented.
+Windows 11 x64, permission to approve UAC prompts for hotspot sessions and system maintenance, a Windows Mobile Hotspot-compatible adapter, and an available internet source. Windows build 26100+ and Ethernet upstream are the documented test baseline. The executable is self-contained; no separate .NET runtime or WSL installation is required. Wired hotspot output is not implemented.
 
 For built-in DNS, separately install the official signed [Windows Packet Filter driver](https://www.ntkernel.com/windows-packet-filter/); version **3.6.2.1** was tested. Follow its installer instructions, including a restart if requested. The app does not install that driver or require disabling Secure Boot/test-signing protections. The driver is not bundled; see its [licensing terms](https://www.ntkernel.com/windows-packet-filter/licensing/).
 
-Extract the Windows x64 package from this fork's Releases page, when published, into a writable folder. Retain the documentation and license notices and run `Y-HOTSPOT.exe` as administrator.
+Extract the Windows x64 package from this fork's Releases page into a writable folder. Retain the documentation and license notices and open `Y-HOTSPOT.exe` normally. Windows asks for elevation when a hotspot session or system maintenance operation needs it.
 
 ## Using the app
 
@@ -39,15 +39,15 @@ Extract the Windows x64 package from this fork's Releases page, when published, 
 
 ## Channel compatibility
 
-Automatic is the default. Manual attempts are allowed after a warning, without a hardware-ID, version or driver-hash lock. It is **not a generic Windows or Intel channel API**. Reference tested package: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
+Automatic is the default. Manual attempts are allowed without a hardware-ID, version or driver-hash lock. The warning appears only when the selected adapter is not identified as an Intel AX200; AX200 selections proceed directly. It is **not a generic Windows or Intel channel API**. Reference tested package: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
 
 | Band | Channel choices |
 | --- | --- |
 | 2.4 GHz | Automatic and 1–13; channel 6 confirmed externally on Android |
-| 5 GHz | Automatic; 36–64 and 100–144 in steps of four; 149, 153, 157, 161, 165. Channel 153: Android browsed on 2026-11-16 |
+| 5 GHz | Automatic; 36–64 and 100–144 in steps of four; 149, 153, 157, 161, 165. Android analyzer confirmed 153, 161 and 165; browsing confirmed on 153 |
 | Automatic | Automatic channel only |
 
-A controlled sweep of all 25 listed 5 GHz channels using inferred band started successfully on **149, 153, 157, 161 and 165**, with Windows reporting each requested channel. The other 20 returned `WiFiDeviceOff`. On 2026-11-16 the settings window started channel 153, Windows reported 153, and an Android phone browsed with mobile data off. The other four successful channels still have only Windows readback. Earlier channel-only requests could be ignored; the current app uses inferred band plus forced channel. Automatic remains recommended. Listed channels are not guarantees of availability; Windows/firmware retain regulatory restrictions. If Windows does not report the requested channel, the app stops and restores the session.
+A controlled sweep of all 25 listed 5 GHz channels using inferred band started successfully on **149, 153, 157, 161 and 165**, with Windows reporting each requested channel. The other 20 returned `WiFiDeviceOff`. The Android analyzer independently confirmed 153, 161 and 165; browsing was verified on 153. The default list shows Automatic and channels validated on the AX200. Turn on **Show all channels** to see the remaining options. Earlier channel-only requests could be ignored; the current app uses inferred band plus forced channel. Automatic remains recommended. Listed channels are not guarantees of availability; Windows/firmware retain regulatory restrictions. If Windows does not report the requested channel, the app stops and restores the session.
 
 Manual control temporarily changes private driver settings and restarts the selected adapter, which must be disconnected from other Wi-Fi networks. Previous values are journaled for restoration. Other adapters and driver versions may be tried, but the private Intel parameters may be ignored or rejected; this is not universal compatibility. See [validation status](docs/release-readiness.md).
 
@@ -62,8 +62,8 @@ Use the supervised Settings workflow for new features. The inherited Windows ser
 | Location | Data |
 | --- | --- |
 | Executable folder | Logs and temporary recovery journals |
-| `%ProgramData%\Y-HOTSPOT` | Configuration and applicable system-setting backups |
-| `%LocalAppData%\Y-HOTSPOT` | Per-user preferences, including language |
+| `%ProgramData%\Y-HOTSPOT` | Legacy service configuration and applicable system-setting backups |
+| `%LocalAppData%\Y-HOTSPOT` | Per-user hotspot settings and preferences, including language |
 
 Do not delete pending recovery journals to bypass an error. Cleanup runs independently of the UI, but a native call that never returns can still prevent confirmed shutdown.
 
@@ -76,7 +76,7 @@ Use Windows, .NET 10 SDK, and compatible Windows SDK/build tooling. From PowerSh
 .\build.ps1
 ```
 
-Output: `dist/releases/Y-HOTSPOT-2.0.0-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
+Output: `dist/releases/Y-HOTSPOT-2.0.1-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
 
 Non-network checks:
 
@@ -136,11 +136,11 @@ Fork de Thomas Vanini baseado no [Y-HOTSPOT de Yokaiste](https://github.com/Yoka
 
 ## Requisitos e instalação
 
-Windows 11 x64, privilégios de administrador, adaptador compatível com Hotspot Móvel e uma conexão de internet disponível. A base documentada dos testes é Windows build 26100+ com internet por Ethernet. O executável é autocontido: não exige instalação separada do runtime .NET nem WSL. Saída do hotspot por cabo ainda não está implementada.
+Windows 11 x64, permissão para aprovar solicitações do UAC nas sessões de hotspot e na manutenção do sistema, adaptador compatível com Hotspot Móvel e uma conexão de internet disponível. A base documentada dos testes é Windows build 26100+ com internet por Ethernet. O executável é autocontido: não exige instalação separada do runtime .NET nem WSL. Saída do hotspot por cabo ainda não está implementada.
 
 Para usar DNS próprio, instale separadamente o driver oficial assinado [Windows Packet Filter](https://www.ntkernel.com/windows-packet-filter/); a versão testada foi **3.6.2.1**. Siga o instalador, incluindo reinício quando solicitado. O aplicativo não instala esse driver nem exige desativar Secure Boot ou habilitar modo de teste. O driver não acompanha o pacote; consulte os [termos do fornecedor](https://www.ntkernel.com/windows-packet-filter/licensing/).
 
-Quando publicada, baixe a versão Windows x64 na página de versões deste fork. Extraia em uma pasta gravável, preserve a documentação e as licenças e execute `Y-HOTSPOT.exe` como administrador.
+Baixe a versão Windows x64 na página de versões deste fork. Extraia em uma pasta gravável, preserve a documentação e as licenças e abra `Y-HOTSPOT.exe` normalmente. O Windows pede elevação ao iniciar uma sessão de hotspot ou executar uma operação de manutenção do sistema.
 
 ## Como usar
 
@@ -153,15 +153,15 @@ Quando publicada, baixe a versão Windows x64 na página de versões deste fork.
 
 ## Compatibilidade dos canais
 
-Automático é o padrão. Tentativas manuais são permitidas após um aviso, sem bloqueio por identificador de hardware, versão ou hash do driver. **Não é uma API genérica do Windows ou da Intel.** Pacote de referência testado: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
+Automático é o padrão. Tentativas manuais são permitidas sem bloqueio por identificador de hardware, versão ou hash do driver. O aviso aparece apenas quando o adaptador selecionado não é identificado como Intel AX200; na AX200, a seleção segue diretamente. **Não é uma API genérica do Windows ou da Intel.** Pacote de referência testado: **Intel Wi-Fi 6 AX200 160MHz, driver 24.0.2.1**, hardware ID `PCI\VEN_8086&DEV_2723&SUBSYS_00848086`.
 
 | Faixa | Opções de canal |
 | --- | --- |
 | 2,4 GHz | Automático e 1–13; canal 6 confirmado externamente pelo Android |
-| 5 GHz | Automático; 36–64 e 100–144 de quatro em quatro; 149, 153, 157, 161 e 165. Canal 153: Android navegou em 16/11/2026 |
+| 5 GHz | Automático; 36–64 e 100–144 de quatro em quatro; 149, 153, 157, 161 e 165. Analisador do Android confirmou 153, 161 e 165; navegação confirmada no 153 |
 | Automático | Somente canal Automático |
 
-Na varredura controlada dos 25 canais de 5 GHz listados, usando faixa inferida, **149, 153, 157, 161 e 165** iniciaram e o Windows informou cada canal solicitado. Os outros 20 retornaram `WiFiDeviceOff`. Em 16/11/2026 a janela de configurações iniciou o canal 153, o Windows informou 153 e um Android navegou com os dados móveis desligados. Os outros quatro canais bem-sucedidos continuam apenas com leitura do Windows. Pedidos anteriores contendo somente o canal podiam ser ignorados; o app atual usa faixa inferida e canal forçado. Automático continua recomendado. Os canais listados não garantem disponibilidade; Windows e firmware mantêm as restrições regulatórias. Se o Windows não informar o canal solicitado, o app para e restaura a sessão.
+Na varredura controlada dos 25 canais de 5 GHz listados, usando faixa inferida, **149, 153, 157, 161 e 165** iniciaram e o Windows informou cada canal solicitado. Os outros 20 retornaram `WiFiDeviceOff`. O analisador do Android confirmou 153, 161 e 165; a navegação foi validada no 153. A lista padrão mostra Automático e os canais validados na AX200. Ative **Mostrar todos os canais** para ver as demais opções. Pedidos anteriores contendo somente o canal podiam ser ignorados; o app atual usa faixa inferida e canal forçado. Automático continua recomendado. Os canais listados não garantem disponibilidade; Windows e firmware mantêm as restrições regulatórias. Se o Windows não informar o canal solicitado, o app para e restaura a sessão.
 
 O controle manual altera temporariamente parâmetros privados do driver e reinicia o adaptador selecionado, que deve estar desconectado de outras redes Wi-Fi. Os valores anteriores ficam registrados para restauração. Outras placas e versões de driver podem ser testadas, mas os parâmetros privados Intel podem ser ignorados ou rejeitados; isso não representa compatibilidade universal. Consulte o [estado da validação](docs/release-readiness.md).
 
@@ -176,8 +176,8 @@ Use o fluxo supervisionado das configurações para os novos recursos. O serviç
 | Local | Dados |
 | --- | --- |
 | Pasta do executável | Logs e registros temporários de recuperação |
-| `%ProgramData%\Y-HOTSPOT` | Configuração e cópias de parâmetros do sistema, quando aplicável |
-| `%LocalAppData%\Y-HOTSPOT` | Preferências individuais, incluindo idioma |
+| `%ProgramData%\Y-HOTSPOT` | Configuração do serviço legado e cópias de parâmetros do sistema, quando aplicável |
+| `%LocalAppData%\Y-HOTSPOT` | Configurações do hotspot e preferências individuais, incluindo idioma |
 
 Não apague registros de recuperação pendentes para contornar um erro. A limpeza é independente da interface, mas uma chamada nativa que nunca retorna ainda pode impedir a confirmação do desligamento.
 
@@ -190,7 +190,7 @@ Use Windows, SDK .NET 10 e ferramentas compatíveis do Windows SDK. No PowerShel
 .\build.ps1
 ```
 
-Saída: `dist/releases/Y-HOTSPOT-2.0.0-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
+Saída: `dist/releases/Y-HOTSPOT-2.0.1-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
 
 Verificações que não alteram a rede:
 

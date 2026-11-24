@@ -88,4 +88,15 @@ public sealed class DnsRecovery
     }
 
     public void Complete() => File.Delete(journal);
+
+    internal static async Task RecoverPendingAsync()
+    {
+        var path = Path.Combine(LogPaths.DirectoryPath, "dns-recovery.json");
+        if (!File.Exists(path)) return;
+        var snapshot = JsonSerializer.Deserialize<Snapshot>(await File.ReadAllTextAsync(path))
+            ?? throw new InvalidDataException("Missing DNS recovery snapshot.");
+        var recovery = new DnsRecovery(snapshot, path);
+        await recovery.RestoreIfNeededAsync();
+        recovery.Complete();
+    }
 }

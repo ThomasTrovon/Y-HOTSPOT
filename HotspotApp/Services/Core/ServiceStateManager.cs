@@ -8,7 +8,6 @@ namespace HotspotApp.Services.Core;
 
 public sealed class ServiceStateManager(
     ServiceManager serviceManager,
-    HotspotOptimizer optimizer,
     ILogger<ServiceStateManager> logger
 )
 {
@@ -51,8 +50,7 @@ public sealed class ServiceStateManager(
             await serviceManager.ApplyServiceStateAsync(AppConstants.AppName, false, () => exePath);
 
             RemoveAutostart();
-            RemoveAdapter();
-            await optimizer.RestoreSystemSettingsAsync();
+            await ElevatedMaintenance.ExecuteAsync("restore-service");
         }
     }
 

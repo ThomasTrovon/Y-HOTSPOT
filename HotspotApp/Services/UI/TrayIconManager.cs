@@ -524,7 +524,7 @@ public partial class TrayIconManager(
             try
             {
                 ShowWindow();
-                var config = await ConfigManager.LoadConfigAsync();
+                var config = await ConfigManager.LoadConfigAsync(forUser: true);
                 await dialogService.ShowHotspotQrAsync(config.Ssid, config.Passphrase);
             }
             catch (Exception ex)
