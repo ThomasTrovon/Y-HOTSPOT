@@ -48,7 +48,8 @@ public sealed partial class SettingsViewModel : ViewModelBase, ViewModelBase.IIn
     }
 
     // These channels started successfully on the reference Intel AX200.
-    private static bool IsValidatedChannel(int channel) => channel is 0 or 6 or 149 or 153 or 157 or 161 or 165;
+    private static bool IsValidatedChannel(int channel) =>
+        channel is >= 0 and <= 13 or 149 or 153 or 157 or 161 or 165;
 
     private SelectionOption<int>? _selectedChannel;
     private (int Channel, Guid? Adapter)? _acknowledgedChannel;

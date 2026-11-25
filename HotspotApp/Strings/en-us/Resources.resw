@@ -531,7 +531,7 @@ Status: {1}</value>
 <data name="Text_ChannelBandRequired" xml:space="preserve"><value>Select a fixed band matching the requested channel.</value></data>
   <data name="Text_ChannelServiceUnsupported" xml:space="preserve"><value>Manual channel selection is available only with the background service disabled.</value></data>
   <data name="SettingsPage_Channel.Header" xml:space="preserve"><value>Hotspot channel</value></data>
-  <data name="SettingsPage_ChannelDescription.Text" xml:space="preserve"><value>Private Intel driver controls; verified: AX200 24.0.2.1, channel 6. Other hardware/channels may be tried after a warning. Restarts Wi-Fi; use Ethernet. Availability depends on the driver and local regulations.</value></data>
+  <data name="SettingsPage_ChannelDescription.Text" xml:space="preserve"><value>Private Intel driver controls; validation reference: AX200, driver 24.0.2.1. Other hardware/channels may be tried after a warning. Restarts Wi-Fi; use Ethernet. Availability depends on the driver and local regulations.</value></data>
   <data name="Text_ChannelPending" xml:space="preserve"><value>A previous channel recovery is pending. Review channel-recovery.json beside the executable before starting.</value></data>
   <data name="Text_ChannelUnsupported" xml:space="preserve"><value>The requested channel or adapter cannot be accessed. Use Automatic or review the log.</value></data>
   <data name="Text_ChannelConflict" xml:space="preserve"><value>The driver settings changed or have an unexpected format. Automatic recovery stopped; the snapshot was preserved.</value></data>
@@ -599,7 +599,7 @@ Status: {1}</value>
   <data name="Text_ApplyingHotspotSettings" xml:space="preserve"><value>Saving and restarting the hotspot… Connected devices will disconnect briefly.</value></data>
   <data name="Text_HotspotSettingsApplied" xml:space="preserve"><value>Settings saved and applied to the hotspot.</value></data>
   <data name="Text_ChannelWarningTitle" xml:space="preserve"><value>Manual channel selection</value></data>
-  <data name="Text_ChannelWarningContent" xml:space="preserve"><value>Automatic is recommended. This method uses private Intel driver settings and restarts the selected Wi-Fi adapter. Channel 6 was verified on Intel AX200 driver 24.0.2.1. Other adapters, drivers and channels are unverified: they may ignore the request or fail to start. You may try anyway. The app checks the reported channel and attempts to restore previous settings on failure. A matching readback does not prove the driver honored the request if Automatic would choose the same channel.</value></data>
+  <data name="Text_ChannelWarningContent" xml:space="preserve"><value>Automatic is recommended. This method uses private Intel driver settings and restarts the selected Wi-Fi adapter. The validation reference is the Intel AX200 with driver 24.0.2.1. Unvalidated channels, other adapters or driver versions may ignore the request or fail to start. You may try anyway. The app checks the reported channel and attempts to restore previous settings on failure. A matching readback does not prove the driver honored the request if Automatic would choose the same channel.</value></data>
   <data name="Text_ChannelWarningContinue" xml:space="preserve"><value>Try selected channel</value></data>
   <data name="SettingsPage_ShowAllChannels.Header" xml:space="preserve"><value>Show all channels</value></data>
   <data name="SettingsPage_ShowAllChannels.OffContent" xml:space="preserve"><value>Validated on AX200</value></data>

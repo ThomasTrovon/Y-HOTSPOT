@@ -3,7 +3,7 @@ namespace HotspotApp.Constants;
 public static class AppConstants
 {
     public const string AppName = "Y-HOTSPOT";
-    public const string Version = "2.0.2";
+    public const string Version = "2.0.3";
     public const string Author = "Yokaiste";
     public const string GithubUrl = "https://github.com/Yokaiste/Y-HOTSPOT";
     public const string ReleasesUrl = "https://github.com/Yokaiste/Y-HOTSPOT/releases";

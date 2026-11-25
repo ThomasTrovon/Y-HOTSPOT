@@ -59,7 +59,7 @@ Automatic is the default. Manual attempts are allowed without a hardware-ID, ver
 
 | Band | Channel choices |
 | --- | --- |
-| 2.4 GHz | Automatic and 1–13; channel 6 confirmed externally on Android |
+| 2.4 GHz | Automatic and 1–13; Windows confirmed all 13 on AX200, and Android independently confirmed channel 6 |
 | 5 GHz | Automatic; 36–64 and 100–144 in steps of four; 149, 153, 157, 161, 165. Android analyzer confirmed 153, 161 and 165; browsing confirmed on 153 |
 | Automatic | Automatic channel only |
 
@@ -92,7 +92,7 @@ Use Windows, .NET 10 SDK, and compatible Windows SDK/build tooling. From PowerSh
 .\build.ps1
 ```
 
-Output: `dist/releases/Y-HOTSPOT-2.0.2-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
+Output: `dist/releases/Y-HOTSPOT-2.0.3-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
 
 Non-network checks:
 
@@ -189,7 +189,7 @@ Automático é o padrão. Tentativas manuais são permitidas sem bloqueio por id
 
 | Faixa | Opções de canal |
 | --- | --- |
-| 2,4 GHz | Automático e 1–13; canal 6 confirmado externamente pelo Android |
+| 2,4 GHz | Automático e 1–13; o Windows confirmou os 13 na AX200, e o Android confirmou o canal 6 |
 | 5 GHz | Automático; 36–64 e 100–144 de quatro em quatro; 149, 153, 157, 161 e 165. Analisador do Android confirmou 153, 161 e 165; navegação confirmada no 153 |
 | Automático | Somente canal Automático |
 
@@ -222,7 +222,7 @@ Use Windows, SDK .NET 10 e ferramentas compatíveis do Windows SDK. No PowerShel
 .\build.ps1
 ```
 
-Saída: `dist/releases/Y-HOTSPOT-2.0.2-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
+Saída: `dist/releases/Y-HOTSPOT-2.0.3-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
 
 Verificações que não alteram a rede:
 

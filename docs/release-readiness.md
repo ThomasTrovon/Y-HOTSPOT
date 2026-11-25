@@ -113,3 +113,11 @@ Lord Thomas também confirmou o canal 165 no analisador Wi-Fi depois de selecion
 The Android analyzer also independently confirmed channel 161. Manual 5 GHz validation is complete on the reference AX200: Android verified 153, 161 and 165, and internet browsing was verified on 153. Channels 149 and 157 have Windows readback only.
 
 O analisador no Android também confirmou o canal 161. A validação manual de 5 GHz está concluída na AX200 de referência: o Android confirmou 153, 161 e 165, e a navegação foi validada no 153. Os canais 149 e 157 têm apenas a leitura do Windows.
+
+## Local 2.4 GHz sweep — 2026-11-25
+
+Intel AX200 with driver 24.0.2.1 started successfully on every requested channel from 1 through 13. Windows reported the requested channel in each run. The hotspot was confirmed off after each attempt and the original driver parameters and band were restored. Android independently confirmed channel 6 in an earlier test.
+
+## Varredura local de 2,4 GHz — 25/11/2026
+
+A Intel AX200 com driver 24.0.2.1 iniciou nos 13 canais solicitados, de 1 a 13. O Windows informou o canal solicitado em cada tentativa. O desligamento foi confirmado após cada teste, e os parâmetros originais do driver e a faixa anterior foram restaurados. O Android confirmou de forma independente o canal 6 em teste anterior.
