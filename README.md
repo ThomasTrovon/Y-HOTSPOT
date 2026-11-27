@@ -92,7 +92,7 @@ Use Windows, .NET 10 SDK, and compatible Windows SDK/build tooling. From PowerSh
 .\build.ps1
 ```
 
-Output: `dist/releases/Y-HOTSPOT-2.0.3-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
+Output: `dist/releases/Y-HOTSPOT-2.0.4-win-x64`, containing the executable, documentation, and licenses. Building does not install drivers or publish. [NDISAPI provenance and rebuild instructions](HotspotApp/Import/ndisapi/README.md) document the included user-mode DLL.
 
 Non-network checks:
 
@@ -222,7 +222,7 @@ Use Windows, SDK .NET 10 e ferramentas compatíveis do Windows SDK. No PowerShel
 .\build.ps1
 ```
 
-Saída: `dist/releases/Y-HOTSPOT-2.0.3-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
+Saída: `dist/releases/Y-HOTSPOT-2.0.4-win-x64`, com executável, documentação e licenças. Compilar não instala drivers nem publica. A [procedência e as instruções de recompilação do NDISAPI](HotspotApp/Import/ndisapi/README.md) documentam a DLL de usuário incluída.
 
 Verificações que não alteram a rede:
 

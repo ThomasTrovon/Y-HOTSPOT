@@ -35,7 +35,13 @@ public sealed class LocalHotspotSession
         await StopInternalAsync();
         return true;
     }, finishAfterTimeout: true);
-    public Task<string> ReadStatusAsync() => queue.RunAsync("Ler estado", _ => Task.FromResult(ReadStatusCore()));
+    public Task<string> ReadStatusAsync() => queue.RunAsync("Ler estado", async _ =>
+    {
+        // Windows can stop a session independently, for example after a radio reset.
+        if (_manager?.TetheringOperationalState == TetheringOperationalState.Off)
+            await StopInternalAsync();
+        return ReadStatusCore();
+    });
 
     public Task AdoptRecoveredAsync(Guid upstreamId) => queue.RunAsync("Assumir hotspot recuperado", token =>
     {

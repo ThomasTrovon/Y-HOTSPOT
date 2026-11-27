@@ -10,6 +10,7 @@ public sealed partial class SettingsPage : ViewModelPage
 {
     public SettingsViewModel ViewModel { get; }
     private readonly DialogService _dialogService;
+    private readonly DispatcherTimer _sessionTimer = new() { Interval = TimeSpan.FromSeconds(15) };
 
     public SettingsPage()
     {
@@ -17,6 +18,13 @@ public sealed partial class SettingsPage : ViewModelPage
         _dialogService = App.Services.GetRequiredService<DialogService>();
         ViewModel = App.Services.GetRequiredService<SettingsViewModel>();
         InitializeViewModel(ViewModel);
+        _sessionTimer.Tick += async (_, _) =>
+        {
+            if (ViewModel.CanStopHotspot)
+                await ViewModel.RefreshSessionStateAsync();
+        };
+        Loaded += (_, _) => _sessionTimer.Start();
+        Unloaded += (_, _) => _sessionTimer.Stop();
         Unloaded += (_, _) => SetPasswordVisible(false);
     }
 

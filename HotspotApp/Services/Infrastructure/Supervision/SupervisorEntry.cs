@@ -4,6 +4,7 @@ using System.Text.Json;
 using HotspotApp.Config;
 using HotspotApp.Logging;
 using HotspotApp.Localization;
+using Windows.Networking.NetworkOperators;
 
 namespace HotspotApp.Services.Infrastructure.Supervision;
 
@@ -42,16 +43,21 @@ public static class SupervisorEntry
         global::WinRT.ComWrappersSupport.InitializeComWrappers();
         LanguagePreferences.Initialize();
         if (File.Exists(journal)) await RecoverInterruptedSessionAsync(journal);
+        var restoreIdleTimeout = NetworkOperatorTetheringManager.IsNoConnectionsTimeoutEnabled();
         File.WriteAllText(journal, JsonSerializer.Serialize(new
         {
             SupervisorPid = Environment.ProcessId, ParentPid = parentId,
+            RestoreIdleTimeout = restoreIdleTimeout,
             Started = DateTimeOffset.Now, State = "Sessão sob supervisão; confirmar limpeza antes de remover este arquivo"
         }), new System.Text.UTF8Encoding(false));
+        if (restoreIdleTimeout)
+            await NetworkOperatorTetheringManager.DisableNoConnectionsTimeoutAsync().AsTask()
+                .WaitAsync(TimeSpan.FromSeconds(8));
         ManualTestDiagnostics.Write($"Supervisor iniciado: PID={Environment.ProcessId}; interface={parentId}");
         var backend = new Backend();
         var cleaned = await new SupervisorLoop(backend, TimeSpan.FromSeconds(60), ManualTestDiagnostics.Write)
             .RunAsync(pipe, parent.WaitForExitAsync());
-        if (cleaned) File.Delete(journal);
+        if (cleaned) await CompleteRecoveryAsync(journal);
         // Retornar do Main encerra este processo, sem matar a interface ou serviços Windows.
         Environment.ExitCode = cleaned ? 0 : 2;
     }
@@ -80,8 +86,20 @@ public static class SupervisorEntry
             foreach (var protocol in new[] { 6, 17 }) policy.Rules.Remove(name + "-" + protocol);
             File.Delete(dnsJournal);
         }
-        File.Delete(journal);
+        await CompleteRecoveryAsync(journal);
         ManualTestDiagnostics.Write("Supervisor: sessão anterior restaurada antes da inicialização");
+    }
+
+    private static async Task CompleteRecoveryAsync(string journal)
+    {
+        // Old journals predate the timeout setting and need no timeout rollback.
+        using var record = JsonDocument.Parse(await File.ReadAllTextAsync(journal));
+        if (record.RootElement.TryGetProperty("RestoreIdleTimeout", out var original)
+            && original.ValueKind == JsonValueKind.True
+            && !NetworkOperatorTetheringManager.IsNoConnectionsTimeoutEnabled())
+            await NetworkOperatorTetheringManager.EnableNoConnectionsTimeoutAsync().AsTask()
+                .WaitAsync(TimeSpan.FromSeconds(8));
+        File.Delete(journal);
     }
 
     private sealed class Backend : ISupervisedHotspot

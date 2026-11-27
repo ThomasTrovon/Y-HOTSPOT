@@ -89,10 +89,18 @@ public sealed class ManualHotspotSession
             var reply = await SupervisorProtocol.ReadAsync<SupervisorReply>(pipe!, timeout.Token);
             if (!reply.Success) throw new IOException(reply.Status);
             owned = reply.OwnsSession;
-            if (command == "stop")
+            if (command == "status" && !owned)
+            {
+                // An external stop has already cleaned the session. EOF lets the
+                // supervisor finish restoring its system-wide timeout setting.
+                pipe!.Dispose();
+            }
+            if (command == "stop" || (command == "status" && !owned))
             {
                 // A confirmação vem antes do processo sair; aguardar sem interromper limpeza.
-                await helper!.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(3));
+                await helper!.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(12));
+                if (helper.ExitCode != 0)
+                    throw new IOException(AppStrings.Get("Text_RecoveryMessage00"));
                 ReleaseConnection();
             }
             return reply.Status;
@@ -128,7 +136,7 @@ public sealed class ManualHotspotSession
         helper = await Task.Run(() => Process.Start(start))
             ?? throw new IOException(AppStrings.Get("Text_RecoveryMessage02"));
         owned = true; // Inclui inicialização e recuperação, impedindo reinício/idioma concorrente.
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(12));
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(35));
         var connecting = pipe.WaitForConnectionAsync(timeout.Token);
         if (await Task.WhenAny(connecting, helper.WaitForExitAsync()) != connecting)
             throw new IOException(AppStrings.Get("Text_RecoveryMessage03"));
